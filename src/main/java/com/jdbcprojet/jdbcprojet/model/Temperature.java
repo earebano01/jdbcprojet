@@ -2,7 +2,6 @@ package com.jdbcprojet.jdbcprojet.model;
 
 import java.sql.Time;
 import java.util.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -61,10 +60,4 @@ public class Temperature {
     public void setTime(Time time) {
         this.time = time;
     }
-
-    
-
-    
-    
-    
 }
