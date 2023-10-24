@@ -9,6 +9,5 @@ public class JdbcprojetApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JdbcprojetApplication.class, args);
 	}
-
 }
 
