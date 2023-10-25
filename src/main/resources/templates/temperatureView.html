@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title>Sensor Data</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
@@ -13,33 +12,88 @@
         table.table-sm td {
             padding: 0.2rem 0.5rem;
         }
+        .scrollable-table {
+            max-height: 550px;
+            overflow-y: scroll;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
-
-<body>
+<body onload="refreshPage()">
     <div class="container mt-4">
-        <h3>TMP36 PostgresQL Records (Raspberry PI)</h3>
-        <table class="table table-bordered table-sm">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Temperature</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="temperature : ${temperature}">
-                    <td th:text="${temperature.id}"></td>
-                    <td th:text="${temperature.temperature}"></td>
-                    <td th:text="${temperature.formattedDate}"></td>
-                    <td th:text="${temperature.time}"></td>
-                </tr>
-            </tbody>
-        </table>
+        <h3>TMP36 PostgresQL Records (Raspberry PI 4 Model B)</h3>
+        <br>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="scrollable-table">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Temperature</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="temperature : ${temperature}">
+                                <td th:text="${temperature.id}"></td>
+                                <td th:text="${temperature.temperature}"></td>
+                                <td th:text="${temperature.formattedDate}"></td>
+                                <td th:text="${temperature.time}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <canvas id="myChart" style="width:100%; max-width:1000px; height:500px"></canvas>
+                <script th:inline="javascript">
+                    const xValues = [[${xValues}]];
+                    const yValues = [[${yValues}]];
+                    const ctx = document.getElementById("myChart").getContext("2d");
+                    new Chart(ctx, {
+                        type: "line",
+                        data: {
+                            labels: xValues,
+                            datasets: [{
+                                label: 'Temperature Data',
+                                data: yValues,
+                                fill: false,
+                                borderColor: 'rgb(222, 51, 51)',
+                                tension: 0.1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    type: 'time',
+                                    time: {
+                                        unit: 'day',
+                                        displayFormats: {
+                                            day: 'MMM DD, YYYY'
+                                        }
+                                    }
+                                },
+                                y: {
+                                    ticks: {
+                                        min: 6,
+                                        max: 16
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    function refreshPage() {
+                        setTimeout(function () {
+                            location.reload();
+                        }, 5000);
+                    }
+                </script>
+            </div>
+        </div>
     </div>
 </body>
-
 </html>
