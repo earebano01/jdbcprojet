@@ -2,6 +2,7 @@ package com.jdbcprojet.jdbcprojet.model;
 
 import java.sql.Time;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -59,5 +60,10 @@ public class Temperature {
 
     public void setTime(Time time) {
         this.time = time;
+    }
+
+    public String getFormattedDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
     }
 }
