@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Sensor Data</title>
+    <title>Données du capteur</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
     <style>
         table.table-sm {
@@ -23,7 +23,7 @@
 </head>
 <body onload="refreshPage()">
     <div class="container mt-4">
-        <h3>TMP36 PostgreSQL Records (Raspberry PI 4 Model B)</h3>
+        <h3>Enregistrements TMP36 PostgreSQL (Raspberry PI 4 Model B)</h3>
         <br>
         <div class="row">
             <div class="col-md-5">
@@ -32,12 +32,13 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Temperature</th>
+                                <th>Température</th>
                                 <th>Date</th>
-                                <th>Time</th>
+                                <th>Heure</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Cette boucle Thymeleaf affiche les données de température provenant du modèle -->
                             <tr th:each="temperature : ${temperature}">
                                 <td th:text="${temperature.id}"></td>
                                 <td th:text="${temperature.temperature}"></td>
@@ -51,15 +52,18 @@
             <div class="col-md-7">
                 <canvas id="myChart" style="width:100%; max-width:1000px; height:500px"></canvas>
                 <script th:inline="javascript">
+                    // Les données nécessaires pour le graphique
                     const xValues = [[${xValues}]];
                     const yValues = [[${yValues}]];
                     const ctx = document.getElementById("myChart").getContext("2d");
+
+                    // Initialisation du graphique avec Chart.js
                     new Chart(ctx, {
                         type: "line",
                         data: {
                             labels: xValues,
                             datasets: [{
-                                label: 'Temperature Data',
+                                label: 'Données de température',
                                 data: yValues,
                                 fill: false,
                                 borderColor: 'rgb(222, 51, 51)',
@@ -86,10 +90,12 @@
                             }
                         }
                     });
+
+                    // Fonction pour actualiser la page toutes les 5 secondes
                     function refreshPage() {
                         setTimeout(function () {
                             location.reload();
-                        }, 5000);
+                        }, 10000);
                     }
                 </script>
             </div>

@@ -1,3 +1,4 @@
+// Cette classe définit le modèle de données pour les températures, marquée comme une entité JPA.
 package com.jdbcprojet.jdbcprojet.model;
 
 import java.sql.Time;
@@ -14,12 +15,13 @@ import jakarta.persistence.Table;
 public class Temperature {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Float temperature;
     private Date date;
     private Time time;
 
+    // Constructeur pour initialiser toutes les propriétés de l'objet Temperature.
     public Temperature(Long id, Float temperature, Date date, Time time) {
         this.id = id;
         this.temperature = temperature;
@@ -27,9 +29,11 @@ public class Temperature {
         this.time = time;
     }
 
+    // Constructeur par défaut, nécessaire pour JPA.
     public Temperature() {
     }
 
+    // Getters et setters pour accéder et modifier les propriétés de l'objet Temperature.
     public Long getId() {
         return id;
     }
@@ -62,6 +66,7 @@ public class Temperature {
         this.time = time;
     }
 
+    // Cette méthode retourne la date formatée au format "yyyy-MM-dd".
     public String getFormattedDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(date);
